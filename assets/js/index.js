@@ -161,9 +161,8 @@ const quotes = [
   }
 ]
 
-
 document.addEventListener('DOMContentLoaded', ()=>{
-    setBtn.addEventListener("click", throttle(function(e){
+    setBtn.addEventListener("click", function(e){
       clearInterval(interval);
       e.preventDefault();
         stopConfetti();
@@ -174,8 +173,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         startCountDown(TimeData);
         pauseAudio();
         resetFields();
-    },0))
-
+    })
 })
 
 const getCounterValues = () =>{
@@ -276,17 +274,6 @@ const reset = () =>{
     setTimeout(()=>{
         countDownCounter.innerHTML = "hh:mm:ss";
     },200)
-}
-
-function throttle(func, delay){
-    let timer = 0;
-    return function(...args){
-        let now = Date.now();
-        if (now - timer >= delay){
-            timer = now;
-            func(...args);
-        }
-    }
 }
 
 const playAudio = () =>{
