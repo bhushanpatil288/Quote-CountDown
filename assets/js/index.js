@@ -164,6 +164,7 @@ const quotes = [
 
 document.addEventListener('DOMContentLoaded', ()=>{
     setBtn.addEventListener("click", throttle(function(e){
+      clearInterval(interval);
       e.preventDefault();
         stopConfetti();
         hideQuote();
@@ -173,7 +174,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         startCountDown(TimeData);
         pauseAudio();
         resetFields();
-    },3000))
+    },0))
 
 })
 
@@ -193,8 +194,10 @@ const startCountDown = (TimeData) =>{
     startClock(hour, minute, second, totalMiliSeconds);
 }
 
+let interval;
+
 const startClock = (hour, minute, second, totalMiliSeconds) =>{
-    const interval = setInterval(()=>{
+  interval = setInterval(()=>{
         if (totalMiliSeconds < 1000){
             playAudio();
             fireConfetti();
