@@ -162,9 +162,8 @@ const quotes = [
 
 
 document.addEventListener('DOMContentLoaded', ()=>{
-
-    setBtn.addEventListener("click", (e)=>{
-        e.preventDefault();
+    setBtn.addEventListener("click", throttle(function(e){
+      e.preventDefault();
         stopConfetti();
         hideQuote();
         
@@ -172,8 +171,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
         startCountDown(TimeData);
         resetFields();
-    })
-
+    },6000))
 
 })
 
@@ -272,4 +270,15 @@ const reset = () =>{
     setTimeout(()=>{
         countDownCounter.innerHTML = "hh:mm:ss";
     },200)
+}
+
+function throttle(func, delay){
+    let timer = 0;
+    return function(...args){
+        let now = Date.now();
+        if (now - timer >= delay){
+            timer = now;
+            func(...args);
+        }
+    }
 }
