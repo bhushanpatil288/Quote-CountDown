@@ -171,6 +171,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const TimeData = getCounterValues();
 
         startCountDown(TimeData);
+        resetFields();
     })
 
 
@@ -198,23 +199,21 @@ const startClock = (hour, minute, second, totalMiliSeconds) =>{
             fireConfetti();
             showQuote();
             clearInterval(interval);
-
+            return;
         }
-        if(second === 0){
-            if(minute == 0){
-                hour--;
-                minute = 59;
-            } else {
-                minute--;
-                second = 59;
-            }
-        } else {
-            second--;
-        }
+        let remaining = totalMiliSeconds;
 
-        countDownCounter.textContent = `${hour}:${minute}:${second}`
+        const h = Math.floor(remaining / (1000 * 60 * 60));
+        remaining %= (1000 * 60 * 60);
+
+        const m = Math.floor(remaining / (1000 * 60));
+        remaining %= (1000 * 60);
+
+        const s = Math.floor(remaining / 1000);
+
+        countDownCounter.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
         totalMiliSeconds-=1000;
-        console.log(totalMiliSeconds);
     }, 1000)
 }
 
@@ -227,6 +226,7 @@ const showQuote = () => {
     quote.innerHTML = randQuote.quote;
     author.innerHTML = randQuote.author;
     quoteSection.classList.remove("d-none");
+    reset();
 }
 
 function fireConfetti(){
@@ -259,4 +259,17 @@ function fireConfetti(){
 
 function stopConfetti(){
     cancelAnimationFrame(confettiFrame);
+}
+
+const resetFields=()=>{
+    document.querySelector("#hour").value = '';
+    document.querySelector("#minute").value = '';
+    document.querySelector("#second").value = '';
+}
+
+const reset = () =>{
+    
+    setTimeout(()=>{
+        countDownCounter.innerHTML = "hh:mm:ss";
+    },200)
 }
