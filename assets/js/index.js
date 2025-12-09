@@ -4,6 +4,7 @@ const setBtn = document.querySelector("#set");
 const quoteSection = document.querySelector(".quote-section")
 let quote = document.querySelector("#quote");
 let author = document.querySelector("#author");
+const audio = document.querySelector("audio");
 // keeping reference to stop confetti if user starts another timer
 let confettiFrame;
 // I am using this array of object to randomly select quote.
@@ -170,8 +171,9 @@ document.addEventListener('DOMContentLoaded', ()=>{
         const TimeData = getCounterValues();
 
         startCountDown(TimeData);
+        pauseAudio();
         resetFields();
-    },6000))
+    },3000))
 
 })
 
@@ -193,7 +195,8 @@ const startCountDown = (TimeData) =>{
 
 const startClock = (hour, minute, second, totalMiliSeconds) =>{
     const interval = setInterval(()=>{
-        if (totalMiliSeconds <= 1000){
+        if (totalMiliSeconds < 1000){
+            playAudio();
             fireConfetti();
             showQuote();
             clearInterval(interval);
@@ -281,4 +284,13 @@ function throttle(func, delay){
             func(...args);
         }
     }
+}
+
+const playAudio = () =>{
+  audio.play();
+}
+
+const pauseAudio = () =>{
+  audio.pause();
+  audio.currentTime = 0;
 }
